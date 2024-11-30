@@ -82,6 +82,6 @@ readExcelFile(file: File): Promise<string[]> {
 
     // Lire le fichier comme chaîne binaire
     reader.readAsBinaryString(file);
-      });
-    }
+  });
+}
 }

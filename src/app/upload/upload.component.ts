@@ -15,7 +15,6 @@ export class UploadComponent {
   fileBefore: any[][] = []; // Content of the uploaded file
   fileAfter: any[][] = []; // Content of the processed file
   selectedFile!: File;
-
   fileNonValide: any[][] = []; // Array to hold non-valid rows
 
   // Drag-and-drop state
