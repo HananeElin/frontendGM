@@ -1,0 +1,59 @@
+<div class="container pt-5">
+  <div class="table-actions">
+      <div class="action-buttons">
+          <button class="btn btn-secondary">
+              <i class="fas fa-chevron-left"></i>
+              Back
+          </button>
+          <button class="btn btn-danger" (click)="deleteData()" [disabled]="isDeleting">
+              <i class="fas fa-ban" *ngIf="!isDeleting"></i>
+              <div class="spinner-grow text-light sizespinner" *ngIf="isDeleting" role="status">
+                  <span class="sr-only">Loading...</span>
+              </div>
+              Delete
+          </button>
+      </div>
+
+      <div class="action-buttons">
+          <button class="btn btn-warning" (click)="importTest()" [disabled]="isTesting">
+              <i class="fas fa-vial" *ngIf="!isTesting"></i>
+              <div class="spinner-grow text-light sizespinner" *ngIf="isTesting" role="status">
+                  <span class="sr-only">Loading...</span>
+              </div>
+              Test
+          </button>
+          <button class="btn btn-success" (click)="importData()" [disabled]="isImporting">
+              <i class="fas fa-file-import" *ngIf="!isImporting"></i>
+              <div class="spinner-grow text-light sizespinner" *ngIf="isImporting" role="status">
+                  <span class="sr-only">Loading...</span>
+              </div>
+              Import
+          </button>
+      </div>
+  </div>
+
+  <div class="table-container">
+      <table class="table table-bordered">
+          <thead>
+              <tr>
+                  <th class="number">#</th>
+                  <th *ngFor="let column of columns">
+                      {{ column.label }}
+                      <select class="form-control">
+                          <option value="">-- No selection --</option>
+                          <option *ngFor="let product of mappingList" [value]="product.label">
+                              {{ product.label }}
+                          </option>
+                      </select>
+                  </th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let row of dataPreview">
+                  <td class="number">{{ row.id }}</td>
+                  <td *ngFor="let column of columns">{{ row[column.id] }}</td>
+              </tr>
+          </tbody>
+      </table>
+  </div>
+</div>
