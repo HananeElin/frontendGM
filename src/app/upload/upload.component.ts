@@ -1,16 +1,17 @@
-import { Component, Inject } from '@angular/core';
+import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UploadService } from '../upload.service';
 import * as XLSX from 'xlsx';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-upload',
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './upload.component.html',
   styleUrls: ['./upload.component.css'],
 })
 export class UploadComponent {
-  constructor(@Inject(UploadService) private uploadService: UploadService) {}
+  fieldsForm: FormGroup;
 
   fileBefore: any[][] = []; // Content of the uploaded file
   fileAfter: any[][] = []; // Content of the processed file
@@ -19,6 +20,19 @@ export class UploadComponent {
 
   // Drag-and-drop state
   isDragging = false;
+
+  @ViewChild('fileInput') fileInput: ElementRef | undefined;
+
+  constructor(
+    @Inject(UploadService) private uploadService: UploadService,
+    private fb: FormBuilder
+  ) {
+    this.fieldsForm = this.fb.group({
+      telephone: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
+      telGestionnaire: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
+      amount: ['', [Validators.required, Validators.pattern(/^\d+$/)]]
+    });
+  }
 
   // Handle file selection
   onFileSelect(event: any): void {
@@ -72,16 +86,11 @@ export class UploadComponent {
     return phonePattern.test(phoneNumber);
   }
 
-
-
-
   // Helper method to validate register number
   isValidRegister(register: string): boolean {
     const registerPatern = /^[0-9]{10}$/;
     return registerPatern.test(register);
   }
-
-
 
   // Drag-and-drop logic
   onDragOver(event: DragEvent): void {
@@ -141,12 +150,12 @@ export class UploadComponent {
 
   // Download the processed file
   downloadProcessedFile(): void {
-    if (this.selectedFile) {
-      this.uploadService.uploadFile(this.selectedFile).subscribe((response) => {
+    if (this.selectedFile && this.fieldsForm.valid) {
+      this.uploadService.downloadMultiplefiles(this.selectedFile, this.fieldsForm.value).subscribe((response) => {
         const url = window.URL.createObjectURL(response);
         const link = document.createElement('a');
         link.href = url;
-        link.setAttribute('download', 'processed_file.xlsx');
+        link.setAttribute('download', 'processed_file.zip');
         document.body.appendChild(link);
         link.click();
       });
@@ -162,5 +171,14 @@ export class UploadComponent {
     this.fileAfter = [];
     this.selectedFile = null!;
     this.fileNonValide = [];
+    this.fieldsForm.reset();
+
+    this.resetFileInput();
+  }
+
+  resetFileInput(): void {
+    if (this.fileInput && this.fileInput.nativeElement) {
+      this.fileInput.nativeElement.value = '';
+    }
   }
 }

@@ -8,6 +8,7 @@ import * as XLSX from 'xlsx';
 })
 export class UploadService {
   private uploadUrl = 'http://localhost:8088/api/excel/upload'; // Spring Boot backend URL
+  private downloadMultipleFilesUrl = 'http://localhost:8088/api/excel/upload/multi-files';
 
   constructor(private http: HttpClient) {}
 
@@ -23,13 +24,24 @@ export class UploadService {
     });
   }
 
-
-// download to an excel file
+  // download to an excel file
   private downloadUrl = 'http://localhost:8088/api/excel/upload';
   download(file: File): Observable<Blob> {
     const formData = new FormData();
     formData.append('file', file);
+
     return this.http.post(this.downloadUrl, formData, { responseType: 'blob' });
+  }
+
+  // download zip content 2 files(valid and invalid excel)
+  downloadMultiplefiles(file: File, fields: any): Observable<Blob> {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('telephone', fields.telephone);
+    formData.append('telGestionnaire', fields.telGestionnaire);
+    formData.append('amount', fields.amount);
+
+    return this.http.post(this.downloadMultipleFilesUrl, formData, { responseType: 'blob' });
   }
 
     // //  method to download invalid rows in Excel format
