@@ -3,26 +3,34 @@
 
   <!-- drag and drop test -->
 
-  <div class="drag-drop-area" (dragover)="onDragOver($event)" (drop)="onFileDrop($event)"
-    (dragleave)="onDragLeave($event)" [class.dragging]="isDragging" accept=".xlsx,.xls">
+  <div class="upload-box" (click)="fileInput.click()" (drop)="onFileDropped($event)" (dragover)="onDragOver($event)" *ngIf="!showPreview">
+    <input type="file" #fileInput (change)="onFileSelected($event)" accept=".xlsx,.xls" style="display: none;" />
+    <div class="upload-area">
+      <img src="assets/images/upload-drag-drop.svg" alt="upload drag and drop" class="mb-3" />
+      <p class="fs-15 font-w600 text-black">
+        Drag & Drop or Click here to upload
+      </p>
+      <p>Please use excel files</p>
+      <p>Max file size: 20MB</p>
+    </div>
+  </div>
 
-    <img class="cloud-img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4i
-      xAAAACXBIWXMAAAsTAAALEwEAmpwYAAAC70lEQVR4nO2Y24tNURzHP2Zcj0sT48yhyC1FFFHThFyKpvHiRSQ8zwOat+FN
-      lEZR5A8YJEoZD+6J4uQaIYxcGqWExMxghinmaE3freU458y5rD1nn+xP7dpr771+v993r9tvLQgJCQkCg4EFwEZgG7AFWAM
-      sBMopAaqBw8BXIJHm+gg0AzUEkAnASaDXCvgZcBw4CBwCWoCnSaJagOkEhGXAewX2GdgFTMrw/QxgJ9CpOu1ALUVmFfBdAZ
-      0AojnUHa8WM3V/ApspErOBbwpkR542Bqmu6ZI9wGJ8IqKZZoW6hMcQ4IlE7HbgZ49smS5agUOmAceA7qTB2QqsBRpUvgaUO
-      fBXBlyRzSYcUWsNRNN3HwBXgdeWINMVfgGzXDkF5smm+XlVLox1KdhmTas2NRLmTZ2uOS3b9YUauiFDe/sZN/Uu/loKNsn/
-      BQpgvoy81GAuBlHF8KkQIw0OZ6FC6FYcI/KpvAS4JwNFW5hEm+KYSg5UWQPMS+js9aIYvFUs+4HVwND+Ksy0ptQ2DbS8mtMx
-      j5PWrg9AY7pxOw54pQ9PAaMIDmOARcAGLco9ivNuqlzuqF5e8mGGiuaYPGaTZdyyMgsj9E+y16vVeyJuiclZq+5dMVzpUEKt1
-      Mc+PTiAW2LaTNkbK5diYsAXNYLJQLgvR0t9FOGXmCa7EdpVGOuDiOQWcS2mWjbNzMYPFYb5ICJmCUn1rlAqZK/DFN6okGlfnS2
-      PUgTqCSFJzEMH/kbKltmZclmFdQ4M31Fab/9tWwh6Z0TcduBvjmy/MIWtKpzBH5KFuKTR2itRae0AzVFOqQiJWHlYnfdwux68A6a
-      UiJAjsntTpy99mPPX85aY5QEWErFEdCoz+YvRwDnL8VlgPTA5m9TZZyERYK7GhNedzKq+Ml2Fcn3ckeHQOd0Vz0NIPA8/CXWnf1o
-      iFZU6+r+odcZLnTNd130U0gU81+xUZ4+JgcTP6XdACYUEjbBFgkbYIkEjnmGNCQkJCflP+Q1txSw9AhDQdwAAAABJRU5ErkJggg==" alt="upload-to-cloud--v1">
-    <p *ngIf="!selectedFile" >Drag and drop your file here, or click to upload</p>
-    <input class="choose" type="file" (change)="onFileSelect($event)" accept=".xlsx,.xls"/>
-    <p *ngIf="selectedFile">{{ selectedFile.name }}</p>
-    <input type="file" hidden #fileInput (change)="onFileSelect($event)" />
-    <p *ngIf="!selectedFile" class="btn-upload">Please use excel files</p>
+  <div class="preview-container" *ngIf="showPreview">
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center">
+        <img src="assets/images/file.svg" alt="file" />
+        <div class="ms-2 me-3">
+          <h2 class="download-file" [innerText]="selectedFile.name">
+            New_suppliers.csv
+          </h2>
+          <p class="mb-0" [innerText]="convertBytesToMB(selectedFile.size)">
+            12.5MB
+          </p>
+        </div>
+      </div>
+  
+      <img src="assets/images/close.svg" alt="close" (click)="closePreview()" width="11" class="c-pointer me-2"/>
+    </div>
   </div>
 
   <h2 class="mb-0">Identify the matching cell for each input field.</h2>
@@ -85,7 +93,4 @@
     </table>
   </div>
 
-
-<!-- </div> -->
-
-
+</div> 

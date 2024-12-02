@@ -21,6 +21,8 @@ export class UploadComponent {
   // Drag-and-drop state
   isDragging = false;
 
+  showPreview: boolean = false;
+
   @ViewChild('fileInput') fileInput: ElementRef | undefined;
 
   constructor(
@@ -148,6 +150,50 @@ export class UploadComponent {
     }
   }
 
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      this.handleFile(file);
+    }
+  }
+
+  onFileDropped(event: DragEvent): void {
+    event.preventDefault();
+    if (event.dataTransfer && event.dataTransfer.files.length > 0) {
+      const file = event.dataTransfer.files[0];
+      this.handleFile(file);
+    }
+  }
+
+  handleFile(file: File): void {
+    if (file.size > 20 * 1024 * 1024) {
+      // 20MB in bytes
+      //this.openSnackBar('File size exceeds 20MB!');
+    } else {
+      this.isDragging = false; // Reset drag state
+
+      this.selectedFile = file;
+
+      this.showPreview = true;
+
+      // Parse the file to preview before upload
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        const data = new Uint8Array(e.target.result);
+        const workbook = XLSX.read(data, { type: 'array' });
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        this.fileBefore = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+        // Identify non-valid rows and store them
+        this.identifyNonValidRows(this.fileBefore);
+      };
+      reader.readAsArrayBuffer(file);
+    
+    }
+  }
+
   // Download the processed file
   downloadProcessedFile(): void {
     if (this.selectedFile && this.fieldsForm.valid) {
@@ -173,6 +219,8 @@ export class UploadComponent {
     this.fileNonValide = [];
     this.fieldsForm.reset();
 
+    this.showPreview = false;
+
     this.resetFileInput();
   }
 
@@ -180,5 +228,26 @@ export class UploadComponent {
     if (this.fileInput && this.fileInput.nativeElement) {
       this.fileInput.nativeElement.value = '';
     }
+  }
+
+  convertBytesToMB(bytes: number): string {
+    return this.convertBytes(bytes);
+  }
+
+  convertBytes(bytes: number, decimals: number = 2): string {
+    if (bytes === 0) return '0 Bytes';
+
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    const size = parseFloat((bytes / Math.pow(k, i)).toFixed(dm));
+
+    return `${size} ${sizes[i]}`;
+  }
+
+  closePreview(): void {
+    this.showPreview = false;
   }
 }
