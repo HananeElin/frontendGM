@@ -86,5 +86,4 @@ export class BOAComponent {
     window.URL.revokeObjectURL(url);
   }
 
-
 }
