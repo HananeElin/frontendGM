@@ -1,0 +1,188 @@
+
+/* Flex container to align forms in a single line */
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;  /* Add spacing between columns */
+  flex-wrap: wrap;  /* Allows wrapping on smaller screens */
+}
+
+.form-container {
+  flex: 1 1 30%; /* Each form container takes 30% of the width */
+  min-width: 250px; /* Ensure they don't get too narrow */
+  margin-bottom: 20px; /* Spacing between forms on small screens */
+}
+
+/* Adjusting form input and button to be responsive */
+.form-control {
+  width: 100%; /* Ensures inputs fill the form container */
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ced4da;
+}
+
+button.btn-primary {
+  padding: 10px;
+  background-color: #ffae0071;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+/* Media Query for smaller screens */
+@media (max-width: 768px) {
+  .flex-container {
+      flex-direction: column; /* Stack the forms vertically on small screens */
+  }
+}
+
+
+/* General styles for container */
+.container {
+  width: 80%;
+  max-width: 100%;
+  padding: 10%;
+  background-color: #bfbfbf;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+/* Header styles */
+h1 {
+  text-align: center;
+  color: #343a40;
+  margin-bottom: 30px;
+}
+
+h3 {
+  color: #343a40;
+}
+
+/* Flexbox for rows */
+.row {
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap; /* Allow wrapping for smaller screens */
+  gap: 20px;
+}
+
+/* Column styling for form inputs */
+.col-md-4 {
+  flex: 1;
+  min-width: 250px; /* Ensures columns are responsive on smaller screens */
+  margin-bottom: 15px;
+}
+
+/* Form styling */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+input.form-control {
+  margin-bottom: 10px;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ced4da;
+  width: 100%; /* Ensures inputs fill the container */
+}
+
+/* Button styling */
+button.btn-primary {
+  padding: 10px;
+  background-color: #ffae0071;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+/* Table wrapper styling */
+.table-wrapper {
+  margin-top: 40px;
+}
+
+/* Table styling */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.table th, .table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.table th {
+  background-color: #f1f1f1;
+  color: #495057;
+}
+
+/* Table striped styling */
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f9f9f9;
+}
+
+.table-striped tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Media Queries for Responsiveness */
+
+/* For tablets and small screens */
+@media (max-width: 768px) {
+  .container {
+    width: 95%; /* Increase container width on smaller screens */
+    padding: 5%;
+  }
+
+  .row {
+    gap: 10px; /* Reduce space between columns */
+  }
+
+  .col-md-4 {
+    flex: 1 1 100%; /* Ensure columns take full width on small screens */
+  }
+
+  button.btn-primary {
+    font-size: 14px; /* Reduce button font size for smaller screens */
+  }
+}
+
+/* For mobile devices */
+@media (max-width: 480px) {
+  .container {
+    width: 100%; /* Full width on mobile */
+    padding: 3%;
+  }
+
+  .col-md-4 {
+    flex: 1 1 100%; /* Full width columns on mobile */
+  }
+
+  input.form-control {
+    padding: 6px; /* Adjust input padding for mobile */
+  }
+
+  button.btn-primary {
+    font-size: 14px; /* Reduce button font size for mobile */
+    padding: 8px; /* Adjust button padding */
+  }
+}

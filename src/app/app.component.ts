@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { UploadComponent } from './upload/upload.component';
 import { CommonModule } from '@angular/common';
+import { BOAComponent } from './boa/boa.component';
 
 @Component({
   selector: 'app-root',
-  imports: [UploadComponent,CommonModule],
+  imports: [UploadComponent,CommonModule,BOAComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

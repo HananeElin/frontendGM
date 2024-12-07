@@ -3,10 +3,15 @@ import { CommonModule } from '@angular/common';
 import { UploadService } from '../upload.service';
 import * as XLSX from 'xlsx';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { BOAComponent } from '../boa/boa.component';
 
 @Component({
   selector: 'app-upload',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+     ReactiveFormsModule,
+     UploadComponent,
+    ],
   templateUrl: './upload.component.html',
   styleUrls: ['./upload.component.css'],
 })
@@ -17,7 +22,7 @@ export class UploadComponent {
   fileAfter: any[][] = []; // Content of the processed file
   selectedFile!: File;
   fileNonValide: any[][] = []; // Array to hold non-valid rows
-
+  downloadHistory: any[] = [];
   // Drag-and-drop state
   isDragging = false;
 
@@ -29,6 +34,7 @@ export class UploadComponent {
     @Inject(UploadService) private uploadService: UploadService,
     private fb: FormBuilder
   ) {
+
     this.fieldsForm = this.fb.group({
       telephone: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
       telGestionnaire: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
@@ -190,7 +196,7 @@ export class UploadComponent {
         this.identifyNonValidRows(this.fileBefore);
       };
       reader.readAsArrayBuffer(file);
-    
+
     }
   }
 
@@ -250,4 +256,6 @@ export class UploadComponent {
   closePreview(): void {
     this.showPreview = false;
   }
+
+
 }

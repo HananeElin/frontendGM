@@ -1,0 +1,57 @@
+<!-- download-logs.component.html -->
+<div class="container ">
+  <h1>Download Logs</h1>
+
+  <!-- Search Forms -->
+  <div class=" flex-container d-flex justify-content-between align-items-center">
+      <div class="col-md-4">
+          <h3>Search by Uploaded Filename</h3>
+          <form
+          >
+              <input type="text"
+               name="uploadedFilename" class="form-control" placeholder="Enter uploaded filename" required>
+              <button type="submit" class="btn btn-primary mt-2 ">Search</button>
+          </form>
+      </div>
+
+      <div class="col-md-4">
+          <h3>Search by Downloaded Filename</h3>
+          <form >
+              <input type="text"  name="downloadedFilename" class="form-control" placeholder="Enter downloaded filename" required>
+              <button type="submit" class="btn btn-primary mt-2">Search</button>
+          </form>
+      </div>
+
+      <div class="col-md-4">
+          <h3>Search by Date Range</h3>
+          <form >
+              <input type="datetime-local" name="startDate" class="form-control" required (input)="onStartDateChange($event)">
+              <input type="datetime-local" name="endDate" class="form-control mt-2" required [hidden]="!isStartDateFilled">
+              <button type="submit" class="btn btn-primary mt-2">Search</button>
+          </form>
+      </div>
+  </div>
+
+  <!-- Results Table -->
+  <div class="table-wrapper">
+      <h3>Results</h3>
+      <table class="table table-striped">
+          <thead>
+              <tr>
+                  <th>ID</th>
+                  <th>Uploaded Filename</th>
+                  <th>Downloaded Filename</th>
+                  <th>Download Date</th>
+              </tr>
+          </thead>
+          <tbody>
+              <!-- <tr *ngFor="let log of logs">
+                  <td>{{ log.id }}</td>
+                  <td>{{ log.uploadedFilename }}</td>
+                  <td>{{ log.downloadedFilename }}</td>
+                  <td>{{ log.createdAt | date: 'short' }}</td>
+              </tr> -->
+          </tbody>
+      </table>
+  </div>
+</div>

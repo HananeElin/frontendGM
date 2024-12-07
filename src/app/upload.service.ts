@@ -7,8 +7,9 @@ import * as XLSX from 'xlsx';
   providedIn: 'root'
 })
 export class UploadService {
-  private uploadUrl = 'http://localhost:8088/api/excel/upload'; // Spring Boot backend URL
-  private downloadMultipleFilesUrl = 'http://localhost:8088/api/excel/upload/multi-files';
+  private uploadUrl = 'http://localhost:8089/api/excel/upload'; // Spring Boot backend URL
+  private downloadMultipleFilesUrl = 'http://localhost:8089/api/excel/upload/multi-files';
+  private BOAUrl='http://localhost:8089/api/files/upload_txt';
 
   constructor(private http: HttpClient) {}
 
@@ -25,7 +26,7 @@ export class UploadService {
   }
 
   // download to an excel file
-  private downloadUrl = 'http://localhost:8088/api/excel/upload';
+  private downloadUrl = 'http://localhost:8089/api/excel/upload';
   download(file: File): Observable<Blob> {
     const formData = new FormData();
     formData.append('file', file);
@@ -94,6 +95,27 @@ readExcelFile(file: File): Promise<string[]> {
 
     // Lire le fichier comme chaîne binaire
     reader.readAsBinaryString(file);
+  });
+}
+ // Method to upload the Excel file and receive the processed file as a response
+//  uploadFile(file: File): Observable<Blob> {
+//   const formData = new FormData();
+//   formData.append('file', file, file.name);
+
+//   // Send the file to the backend
+//   return this.http.post<Blob>(this.uploadUrl, formData, {
+//     headers: new HttpHeaders(),
+//     responseType: 'blob' as 'json', // We expect a Blob response (processed Excel file)
+//   });
+// }
+ // Method to upload the .txt file and return the Excel file as binary data
+ uploadTXTFile(file: File): Observable<ArrayBuffer> {
+  const formData = new FormData();
+  formData.append('file', file);
+
+  return this.http.post<ArrayBuffer>(`${this.BOAUrl}/upload_txt`, formData, {
+    headers: new HttpHeaders(),
+    responseType: 'arraybuffer' as 'json', // Ensure response is treated as binary data
   });
 }
 }

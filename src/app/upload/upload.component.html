@@ -1,4 +1,7 @@
 <div class="container">
+  <div class="flex-container d-flex justify-content-between align-items-center ">
+
+<div>
   <h2 class="title">Upload and Process Excel File</h2>
 
   <!-- drag and drop test -->
@@ -28,11 +31,12 @@
           </p>
         </div>
       </div>
-  
+
       <img src="assets/images/close.svg" alt="close" (click)="closePreview()" width="11" class="c-pointer me-2"/>
     </div>
   </div>
-
+</div>
+<div>
   <h2 class="mb-0">Identify the matching cell for each input field.</h2>
   <form [formGroup]="fieldsForm" class="form-input">
     <!-- Telephone Field -->
@@ -44,7 +48,7 @@
         <small *ngIf="fieldsForm.get('telephone')?.errors?.['pattern']">Only numeric values allowed</small>
       </div>
     </div>
-  
+
     <!-- Tel Gestionnaire Field -->
     <div class="file-header">
       <label for="telGestionnaire">Tel Gestionnaire</label>
@@ -54,7 +58,7 @@
         <small *ngIf="fieldsForm.get('telGestionnaire')?.errors?.['pattern']">Only numeric values allowed</small>
       </div>
     </div>
-  
+
     <!-- Amount Field -->
     <div class="file-header">
       <label for="amount">Amount</label>
@@ -65,32 +69,34 @@
       </div>
     </div>
   </form>
-  
+</div>
+</div>
   <div class="btn" id="sous-drag">
-    <button (click)="onUpload()" class="action-button" [disabled]="!selectedFile" >Process the file</button>
-    <button (click)="downloadProcessedFile()" class="action-button" [disabled]="!selectedFile || fieldsForm.invalid" >
-      Download Processed File</button>
+    <button (click)="onUpload()" class="action-button" [disabled]="!selectedFile">Process the file</button>
+    <button (click)="downloadProcessedFile()" class="action-button" [disabled]="!selectedFile || fieldsForm.invalid" >  Download Processed File</button>
+    <button (click)="downloadHistory" class="action-button" [disabled]="!selectedFile || fieldsForm.invalid" >Download History</button>
+
   </div>
 
-<!-- <div class="flex-container d-flex justify-content-between align-items-center "> -->
+<div class="flex-container d-flex justify-content-between align-items-center ">
 
-  <!-- Non-Valid Rows Table -->
- <!-- <div>
+  <!--Non-Valid Rows Table -->
+  <div>
 <h3>Non-Valid Rows:</h3>
 <table border="1">
   <tr *ngFor="let row of fileNonValide">
     <td *ngFor="let cell of row">{{ cell }}</td>
   </tr>
 </table>
-</div> -->
+</div>
  <!-- Preview Processed File -->
   <div>
-    <h3>File After Processing:</h3>
-    <table border="1">
+    <h3 >File After Processing:</h3>
+    <table border="1" >
       <tr *ngFor="let row of fileAfter">
         <td *ngFor="let cell of row">{{ cell }}</td>
       </tr>
     </table>
   </div>
 
-</div> 
+</div>
