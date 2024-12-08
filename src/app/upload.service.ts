@@ -7,6 +7,9 @@ import * as XLSX from 'xlsx';
   providedIn: 'root'
 })
 export class UploadService {
+  getDownloadUrl() {
+    throw new Error('Method not implemented.');
+  }
   private uploadUrl = 'http://localhost:8089/api/excel/upload'; // Spring Boot backend URL
   private downloadMultipleFilesUrl = 'http://localhost:8089/api/excel/upload/multi-files';
   private BOAUrl='http://localhost:8089/api/files/upload_txt';
@@ -45,25 +48,7 @@ export class UploadService {
     return this.http.post(this.downloadMultipleFilesUrl, formData, { responseType: 'blob' });
   }
 
-    // //  method to download invalid rows in Excel format
-    // downloadInvalidRows(nonValidRows: any[]): Observable<Blob> {
-    //   const ws = XLSX.utils.aoa_to_sheet(nonValidRows); // Convert rows to Excel sheet
-    //   const wb = XLSX.utils.book_new();
-    //   XLSX.utils.book_append_sheet(wb, ws, 'Invalid Rows');
-    //   const invalidFile = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
 
-    //   const blob = new Blob([invalidFile], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-    //   const fileUrl = window.URL.createObjectURL(blob);
-    //   const fileLink = document.createElement('a');
-    //   fileLink.href = fileUrl;
-    //   fileLink.download = 'invalid_rows.xlsx'; // Set file name for download
-    //   fileLink.click();
-
-    //   return this.http.post<Blob>(this.uploadUrl, ws, {
-    //     headers: new HttpHeaders(),
-    //     responseType: 'blob' as 'json'  // We expect a Blob response (processed Excel file)
-    //   });
-    // }
 // Méthode pour lire le fichier Excel et renvoyer l'entête (première ligne)
 readExcelFile(file: File): Promise<string[]> {
   return new Promise((resolve, reject) => {
@@ -97,25 +82,18 @@ readExcelFile(file: File): Promise<string[]> {
     reader.readAsBinaryString(file);
   });
 }
- // Method to upload the Excel file and receive the processed file as a response
-//  uploadFile(file: File): Observable<Blob> {
-//   const formData = new FormData();
-//   formData.append('file', file, file.name);
+  // download to an excel file
+  private downloadBOA = 'http://localhost:8089/api/files/upload_txt';
+  downloadTXT(file: File): Observable<Blob> {
+    const formData = new FormData();
+    formData.append('file', file);
 
-//   // Send the file to the backend
-//   return this.http.post<Blob>(this.uploadUrl, formData, {
-//     headers: new HttpHeaders(),
-//     responseType: 'blob' as 'json', // We expect a Blob response (processed Excel file)
-//   });
-// }
+    return this.http.post(this.downloadBOA, formData, { responseType: 'blob' });
+  }
+
  // Method to upload the .txt file and return the Excel file as binary data
- uploadTXTFile(file: File): Observable<ArrayBuffer> {
-  const formData = new FormData();
-  formData.append('file', file);
-
-  return this.http.post<ArrayBuffer>(`${this.BOAUrl}/upload_txt`, formData, {
-    headers: new HttpHeaders(),
-    responseType: 'arraybuffer' as 'json', // Ensure response is treated as binary data
-  });
+ uploadTXTFile(file: FormData): Observable<any> {
+  const headers = new HttpHeaders().set('Content-Type', 'multipart/form-data');
+  return this.http.post(this.BOAUrl, file, { headers, responseType: 'arraybuffer' });
 }
 }

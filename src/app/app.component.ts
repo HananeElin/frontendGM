@@ -5,7 +5,11 @@ import { BOAComponent } from './boa/boa.component';
 
 @Component({
   selector: 'app-root',
-  imports: [UploadComponent,CommonModule,BOAComponent],
+  imports: [
+    UploadComponent,
+    CommonModule,
+    BOAComponent,
+    CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

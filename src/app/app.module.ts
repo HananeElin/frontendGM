@@ -17,7 +17,8 @@ import { BOAComponent } from './boa/boa.component';
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    BOAComponent
+    BOAComponent,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

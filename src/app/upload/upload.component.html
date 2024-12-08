@@ -7,7 +7,9 @@
   <!-- drag and drop test -->
 
   <div class="upload-box" (click)="fileInput.click()" (drop)="onFileDropped($event)" (dragover)="onDragOver($event)" *ngIf="!showPreview">
-    <input type="file" #fileInput (change)="onFileSelected($event)" accept=".xlsx,.xls" style="display: none;" />
+    <input type="file"
+    #fileInput (change)="onFileSelected($event)"
+    accept=".xlsx,.xls" style="display: none;" />
     <div class="upload-area">
       <img src="assets/images/upload-drag-drop.svg" alt="upload drag and drop" class="mb-3" />
       <p class="fs-15 font-w600 text-black">
@@ -74,7 +76,7 @@
   <div class="btn" id="sous-drag">
     <button (click)="onUpload()" class="action-button" [disabled]="!selectedFile">Process the file</button>
     <button (click)="downloadProcessedFile()" class="action-button" [disabled]="!selectedFile || fieldsForm.invalid" >  Download Processed File</button>
-    <button (click)="downloadHistory" class="action-button" [disabled]="!selectedFile || fieldsForm.invalid" >Download History</button>
+    <!-- <button (click)="downloadHistory" class="action-button" [disabled]="!selectedFile || fieldsForm.invalid" >Download History</button> -->
 
   </div>
 

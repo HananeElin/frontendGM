@@ -10,7 +10,6 @@ import { BOAComponent } from '../boa/boa.component';
   imports: [
     CommonModule,
      ReactiveFormsModule,
-     UploadComponent,
     ],
   templateUrl: './upload.component.html',
   styleUrls: ['./upload.component.css'],
